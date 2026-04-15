@@ -129,7 +129,7 @@ if [ -f /workspace/BLENDER_APPS/blender-app/blender ]; then
     cat > /home/kasm-user/Desktop/Blender.desktop << EOF2
 [Desktop Entry]
 Name=Blender
-Exec=/workspace/BLENDER_APPS/blender-app/blender
+Exec=blender %f
 Icon=${ICON_PATH}
 Type=Application
 Terminal=false

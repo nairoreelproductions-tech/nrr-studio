@@ -27,6 +27,14 @@ RUN cd /tmp \
     && ldconfig \
     && rm -rf /tmp/Vulkan-Headers /tmp/Vulkan-Loader
 
+# Blender launcher wrapper — uses VirtualGL for GPU acceleration in KasmVNC
+RUN printf '#!/usr/bin/env bash\n\
+if [ -f /opt/VirtualGL/bin/vglrun ] && [ ! -z "${KASM_EGL_CARD}" ] && [ ! -z "${KASM_RENDERD}" ] && [ -O "${KASM_RENDERD}" ] && [ -O "${KASM_EGL_CARD}" ]; then\n\
+    vglrun -d "${KASM_EGL_CARD}" /workspace/BLENDER_APPS/blender-app/blender "$@"\n\
+else\n\
+    /workspace/BLENDER_APPS/blender-app/blender "$@"\n\
+fi\n' > /usr/bin/blender && chmod +x /usr/bin/blender
+
 # Copy and register the startup wrapper
 COPY fix-workspace-and-start.sh /usr/local/bin/fix-workspace-and-start.sh
 RUN chmod +x /usr/local/bin/fix-workspace-and-start.sh
