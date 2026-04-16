@@ -47,7 +47,7 @@ Two phases. Phase 1 is complete. Phase 2 is the current work.
    - Blender → Edit → Preferences → Add-ons shows linked addons
    - `crontab -l` shows the 5-minute sync entry
    - Create a file in `~/studio/PROJECTS/`, wait 5 min, check VPS
-5. Test Moonlight (see `docs/VASTAI_QUICKSTART.md` Section B)
+5. Test Moonlight (see `VASTAI_QUICKSTART.md` Section B)
 
 ---
 
@@ -63,7 +63,7 @@ Once the system is verified, populate the VPS with production content:
 
 ## Rollback Plan
 
-**VPS sshd_config broke**: Restore backup via VNC (see `docs/VPS_REFERENCE.md` section 5).
+**VPS sshd_config broke**: Restore backup via VNC (see `VPS_REFERENCE.md` section 5).
 
 **Bootstrap script broken**: Fix the script in the repo and re-run on the VM — the script is idempotent.
 

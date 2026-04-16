@@ -34,7 +34,7 @@ Team member
 
 ## The VPS (RackNerd)
 
-See `docs/VPS_REFERENCE.md` for full server documentation.
+See `VPS_REFERENCE.md` for full server documentation.
 
 Critical facts:
 - IP: `107.172.153.249`
@@ -140,7 +140,7 @@ Libraries, configs, and Blender are read-only on the VM. Only PROJECTS syncs bac
 | Method | Latency | Setup |
 |---|---|---|
 | WebRTC (browser) | 50–100ms | Click "Open" in Vast.ai console |
-| Moonlight + Sunshine | 20–60ms | Tailscale on both sides, see docs/VASTAI_QUICKSTART.md |
+| Moonlight + Sunshine | 20–60ms | Tailscale on both sides, see VASTAI_QUICKSTART.md |
 | VNC | 80–150ms | VNC client to mapped port 5900 |
 | SSH | N/A | `ssh -p <port> user@<ip>` |
 
