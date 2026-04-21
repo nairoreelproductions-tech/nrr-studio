@@ -58,10 +58,10 @@ log "Pulling data from VPS /srv/studio/..."
 mkdir -p "$STUDIO_ROOT/PROJECTS" "$STUDIO_ROOT/BLENDER_APPS" "$STUDIO_ROOT/LIBRARY_GLOBAL" "$STUDIO_ROOT/CONFIG_MASTER"
 
 # No more 'root' ownership—user creates these directly.
-rclone copy vps:/srv/studio/PROJECTS "$STUDIO_ROOT/PROJECTS" --transfers=8 --stats=10s
-rclone copy vps:/srv/studio/BLENDER_APPS "$STUDIO_ROOT/BLENDER_APPS" --transfers=4
-rclone copy vps:/srv/studio/LIBRARY_GLOBAL "$STUDIO_ROOT/LIBRARY_GLOBAL" --transfers=16
-rclone copy vps:/srv/studio/CONFIG_MASTER "$STUDIO_ROOT/CONFIG_MASTER" --transfers=4
+rclone copy vps:../../srv/studio/PROJECTS "$STUDIO_ROOT/PROJECTS" --transfers=8 --stats=10s
+rclone copy vps:../../srv/studio/BLENDER_APPS "$STUDIO_ROOT/BLENDER_APPS" --transfers=4
+rclone copy vps:../../srv/studio/LIBRARY_GLOBAL "$STUDIO_ROOT/LIBRARY_GLOBAL" --transfers=16
+rclone copy vps:../../srv/studio/CONFIG_MASTER "$STUDIO_ROOT/CONFIG_MASTER" --transfers=4
 
 # ── SECTION 5: Blender 4.5.7 Setup ──────────────────────────
 log "Setting up Blender 4.5.7..."
