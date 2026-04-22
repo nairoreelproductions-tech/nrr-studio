@@ -100,7 +100,7 @@ fi
 
 # ── SECTION 6: Cron Sync Back to VPS ─────────────────────────
 # Sync uses same relative path. Runs as user, uses user's rclone config.
-CRON_CMD="rclone sync $STUDIO_ROOT/PROJECTS vps:/PROJECTS --transfers=4 2>>$LOG"
+CRON_CMD="rclone copy $STUDIO_ROOT/PROJECTS vps:/PROJECTS --transfers=4 2>>$LOG"
 (crontab -l 2>/dev/null | grep -v "vps:/PROJECTS"; echo "*/5 * * * * $CRON_CMD") | crontab -
 log "Cron sync registered."
 
