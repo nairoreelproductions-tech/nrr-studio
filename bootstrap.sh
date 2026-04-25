@@ -68,16 +68,16 @@ mkdir -p "$STUDIO_ROOT/PROJECTS" \
          "$STUDIO_ROOT/CONFIG_MASTER"
 
 log "--- Pulling PROJECTS ---"
-rclone copy vps:/PROJECTS       "$STUDIO_ROOT/PROJECTS"       --transfers=8  --progress --verbose 2>&1 | tee -a "$LOG" || { log "ERROR: PROJECTS pull failed."; exit 1; }
+rclone copy vps:/PROJECTS       "$STUDIO_ROOT/PROJECTS"       --transfers=8  --progress 2>>"$LOG" || { log "ERROR: PROJECTS pull failed. Check $LOG for details."; exit 1; }
 
 log "--- Pulling BLENDER_APPS ---"
-rclone copy vps:/BLENDER_APPS   "$STUDIO_ROOT/BLENDER_APPS"   --transfers=4  --progress --verbose 2>&1 | tee -a "$LOG" || { log "ERROR: BLENDER_APPS pull failed."; exit 1; }
+rclone copy vps:/BLENDER_APPS   "$STUDIO_ROOT/BLENDER_APPS"   --transfers=4  --progress 2>>"$LOG" || { log "ERROR: BLENDER_APPS pull failed. Check $LOG for details."; exit 1; }
 
 log "--- Pulling LIBRARY_GLOBAL ---"
-rclone copy vps:/LIBRARY_GLOBAL "$STUDIO_ROOT/LIBRARY_GLOBAL" --transfers=16 --progress --verbose 2>&1 | tee -a "$LOG" || { log "ERROR: LIBRARY_GLOBAL pull failed."; exit 1; }
+rclone copy vps:/LIBRARY_GLOBAL "$STUDIO_ROOT/LIBRARY_GLOBAL" --transfers=16 --progress 2>>"$LOG" || { log "ERROR: LIBRARY_GLOBAL pull failed. Check $LOG for details."; exit 1; }
 
 log "--- Pulling CONFIG_MASTER ---"
-rclone copy vps:/CONFIG_MASTER  "$STUDIO_ROOT/CONFIG_MASTER"  --transfers=4  --progress --verbose 2>&1 | tee -a "$LOG" || { log "ERROR: CONFIG_MASTER pull failed."; exit 1; }
+rclone copy vps:/CONFIG_MASTER  "$STUDIO_ROOT/CONFIG_MASTER"  --transfers=4  --progress 2>>"$LOG" || { log "ERROR: CONFIG_MASTER pull failed. Check $LOG for details."; exit 1; }
 
 # ── SECTION 5: Blender 4.5.7 Setup ───────────────────────────
 log "Setting up Blender..."
@@ -121,19 +121,19 @@ if ! grep -q "NRR Studio Aliases" "$HOME/.bashrc" 2>/dev/null; then
 # ── NRR Studio Aliases ─────────────────────────────────────────
 
 # Pull everything fresh from the VPS (PROJECTS + LIBRARY + CONFIG)
-alias studio-pull='rclone copy vps:/PROJECTS       $HOME/studio/PROJECTS       --transfers=8  --progress --verbose &&
-                   rclone copy vps:/LIBRARY_GLOBAL  $HOME/studio/LIBRARY_GLOBAL --transfers=16 --progress --verbose &&
-                   rclone copy vps:/CONFIG_MASTER   $HOME/studio/CONFIG_MASTER  --transfers=4  --progress --verbose &&
+alias studio-pull='rclone copy vps:/PROJECTS       $HOME/studio/PROJECTS       --transfers=8  --progress &&
+                   rclone copy vps:/LIBRARY_GLOBAL  $HOME/studio/LIBRARY_GLOBAL --transfers=16 --progress &&
+                   rclone copy vps:/CONFIG_MASTER   $HOME/studio/CONFIG_MASTER  --transfers=4  --progress &&
                    echo "[nrr] Pull complete."'
 
 # Pull PROJECTS only — fastest, use this after a teammate uploads a file
-alias studio-pull-projects='rclone copy vps:/PROJECTS $HOME/studio/PROJECTS --transfers=8 --progress --verbose && echo "[nrr] Projects pulled."'
+alias studio-pull-projects='rclone copy vps:/PROJECTS $HOME/studio/PROJECTS --transfers=8 --progress && echo "[nrr] Projects pulled."'
 
 # Push PROJECTS up to VPS immediately (does not wait for the 5-min cron)
-alias studio-push='rclone sync $HOME/studio/PROJECTS vps:/PROJECTS --transfers=8 --progress --verbose && echo "[nrr] Push complete."'
+alias studio-push='rclone sync $HOME/studio/PROJECTS vps:/PROJECTS --transfers=8 --progress && echo "[nrr] Push complete."'
 
 # Push a single folder by name: studio-push-folder my_scene
-alias studio-push-folder='f(){ rclone sync "$HOME/studio/PROJECTS/$1" "vps:/PROJECTS/$1" --transfers=4 --progress --verbose && echo "[nrr] Pushed: $1"; }; f'
+alias studio-push-folder='f(){ rclone sync "$HOME/studio/PROJECTS/$1" "vps:/PROJECTS/$1" --transfers=4 --progress && echo "[nrr] Pushed: $1"; }; f'
 
 # Show files that differ between local PROJECTS and VPS (dry-run, no changes made)
 alias studio-status='rclone check $HOME/studio/PROJECTS vps:/PROJECTS --one-way 2>&1 | grep -E "ERROR|not found|differ|Match" || echo "[nrr] All in sync."'
