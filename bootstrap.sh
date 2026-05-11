@@ -66,18 +66,20 @@ mkdir -p "$STUDIO_ROOT/PROJECTS" \
          "$STUDIO_ROOT/BLENDER_APPS" \
          "$STUDIO_ROOT/LIBRARY_GLOBAL" \
          "$STUDIO_ROOT/CONFIG_MASTER"
+# Define the config path clearly
+MY_RCONF="$HOME/.config/rclone/rclone.conf"
 
 log "--- Pulling PROJECTS ---"
-rclone copy vps:/PROJECTS       "$STUDIO_ROOT/PROJECTS"       --transfers=8  --progress 2>>"$LOG" || { log "ERROR: PROJECTS pull failed. Check $LOG for details."; exit 1; }
+rclone --config "$MY_RCONF" copy vps:/PROJECTS       "$STUDIO_ROOT/PROJECTS"       --transfers=8  --progress 2>>"$LOG" || { log "ERROR: PROJECTS pull failed. Check $LOG for details."; exit 1; }
 
 log "--- Pulling BLENDER_APPS ---"
-rclone copy vps:/BLENDER_APPS   "$STUDIO_ROOT/BLENDER_APPS"   --transfers=4  --progress 2>>"$LOG" || { log "ERROR: BLENDER_APPS pull failed. Check $LOG for details."; exit 1; }
+rclone --config "$MY_RCONF" copy vps:/BLENDER_APPS   "$STUDIO_ROOT/BLENDER_APPS"   --transfers=4  --progress 2>>"$LOG" || { log "ERROR: BLENDER_APPS pull failed. Check $LOG for details."; exit 1; }
 
 log "--- Pulling LIBRARY_GLOBAL ---"
-rclone copy vps:/LIBRARY_GLOBAL "$STUDIO_ROOT/LIBRARY_GLOBAL" --transfers=16 --progress 2>>"$LOG" || { log "ERROR: LIBRARY_GLOBAL pull failed. Check $LOG for details."; exit 1; }
+rclone --config "$MY_RCONF" copy vps:/LIBRARY_GLOBAL "$STUDIO_ROOT/LIBRARY_GLOBAL" --transfers=16 --progress 2>>"$LOG" || { log "ERROR: LIBRARY_GLOBAL pull failed. Check $LOG for details."; exit 1; }
 
 log "--- Pulling CONFIG_MASTER ---"
-rclone copy vps:/CONFIG_MASTER  "$STUDIO_ROOT/CONFIG_MASTER"  --transfers=4  --progress 2>>"$LOG" || { log "ERROR: CONFIG_MASTER pull failed. Check $LOG for details."; exit 1; }
+rclone --config "$MY_RCONF" copy vps:/CONFIG_MASTER  "$STUDIO_ROOT/CONFIG_MASTER"  --transfers=4  --progress 2>>"$LOG" || { log "ERROR: CONFIG_MASTER pull failed. Check $LOG for details."; exit 1; }
 
 # ── SECTION 5: Blender 4.5.7 Setup ───────────────────────────
 log "Setting up Blender..."
