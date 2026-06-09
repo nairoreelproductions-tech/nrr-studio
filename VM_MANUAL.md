@@ -10,20 +10,20 @@ How to set up, use, and stay in sync with the shared cloud workstation.
 
 ## 📑 Contents
 
-1.  [System Overview](https://www.google.com/search?q=%2301--system-overview)
-2.  [First-Time Setup](https://www.google.com/search?q=%2302--first-time-setup)
-3.  [Folder Structure](https://www.google.com/search?q=%2303--folder-structure)
-4.  [Command Reference](https://www.google.com/search?q=%2304--command-reference)
-5.  [Daily Workflows](https://www.google.com/search?q=%2305--daily-workflows)
-6.  [Team Rules](https://www.google.com/search?q=%2306--team-rules)
-7.  [Troubleshooting](https://www.google.com/search?q=%2307--troubleshooting)
-8.  [FAQ](https://www.google.com/search?q=%2308--faq)
+1.  [System Overview](#01--system-overview)
+2.  [First-Time Setup](#02--first-time-setup)
+3.  [Folder Structure](#03--folder-structure)
+4.  [Command Reference](#04--command-reference)
+5.  [Daily Workflows](#05--daily-workflows)
+6.  [Team Rules](#06--team-rules)
+7.  [Troubleshooting](#07--troubleshooting)
+8.  [FAQ](#08--faq)
 
 -----
 
 ## 01 — System Overview
 
-NRR Studio runs on a central VPS that holds all shared project files, Blender builds, and asset libraries. Each team member connects to it through a cloud workstation (VNC desktop) that is bootstrapped automatically. Files sync between your local workspace and the VPS using **rclone** over a private SSH connection.
+NRR Studio runs on a central VPS that holds all shared project files, Blender builds, and asset libraries. Each team member connects to it through a cloud workstation (VNC desktop) that is bootstrapped with all files and tools in minutes.
 
 ### Data Flow
 
@@ -35,12 +35,12 @@ graph LR
     style C fill:#e8ff47,stroke:#333,stroke-width:2px,color:#000
 ```
 
-> [\!NOTE]
+> [!NOTE]
 > **Key Concept:** Your `~/studio/` folder is your local workspace. The VPS is the shared source of truth. Syncing is *not automatic on pull* — you control when you fetch new work.
 
 ### Auto-sync
 
-Your `PROJECTS` folder pushes to the VPS automatically every **5 minutes** in the background. You don't need to do anything for your saves to reach the server — but you do need to manually pull to receive other people's changes.
+Your `PROJECTS` folder pushes to the VPS automatically every **5 minutes** in the background. You don't need to do anything for your saves to reach the server — but you do need to manually pull to receive updates from teammates.
 
 -----
 
@@ -55,7 +55,7 @@ You only need to run this once per machine or new VNC session. Ask the team lead
     ```
 3.  **Run the bootstrap script**:
     ```bash
-    curl -fsSL https://raw.githubusercontent.com/nrr-studio/bootstrap.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/nairoreelproductions-tech/nrr-studio/main/bootstrap.sh | bash
     ```
 4.  **Wait for it to finish.** It will download all project files, set up Blender, and register all aliases.
 5.  **Reload your shell** so aliases are available:
@@ -64,7 +64,7 @@ You only need to run this once per machine or new VNC session. Ask the team lead
     ```
 6.  **Launch Blender** from the Desktop shortcut or type `studio-open`.
 
-> [\!WARNING]
+> [!WARNING]
 > **Important:** Never share your `VPS_SSH_KEY_B64` in chat, email, or commits. Treat it like a password.
 
 -----
@@ -125,7 +125,7 @@ All commands are available in any terminal after running the bootstrap.
 2.  Push it up immediately: `studio-push-folder your_project_folder`
 3.  Confirm it landed: `studio-ls`
 
-> [\!IMPORTANT]
+> [!IMPORTANT]
 > **Avoid conflicts:** Do not have two people working on the same `.blend` file at the same time. Rclone is a "last-write-wins" system. Coordinate before working on the same file.
 
 -----
