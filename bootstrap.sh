@@ -111,20 +111,14 @@ CRON_CMD="rclone copy $STUDIO_ROOT/PROJECTS vps:/PROJECTS --transfers=4 2>>$LOG"
 (crontab -l 2>/dev/null | grep -v "vps:/PROJECTS"; echo "*/5 * * * * $CRON_CMD") | crontab -
 log "Cron sync registered."
 
-# ── SECTION 7: Shell Aliases ──────────────────────────────────
+# ── SECTION 7: Shell Aliases (write to ~/.bash_aliases) ────────
 log "Registering studio aliases..."
 
-# Write aliases to .bashrc if not already present
-if ! grep -q "NRR Studio Aliases" "$HOME/.bashrc" 2>/dev/null; then
-    cat >> "$HOME/.bashrc" << 'ENDOFALIASES'
-
+cat > "$HOME/.bash_aliases" << 'ENDOFALIASES'
 # ── NRR Studio Aliases ─────────────────────────────────────────
 
 # Pull everything fresh from the VPS (PROJECTS + LIBRARY + CONFIG)
-alias studio-pull='rclone copy vps:/PROJECTS       $HOME/studio/PROJECTS       --transfers=8  --progress &&
-                   rclone copy vps:/LIBRARY_GLOBAL  $HOME/studio/LIBRARY_GLOBAL --transfers=16 --progress &&
-                   rclone copy vps:/CONFIG_MASTER   $HOME/studio/CONFIG_MASTER  --transfers=4  --progress &&
-                   echo "[nrr] Pull complete."'
+alias studio-pull='rclone copy vps:/PROJECTS       $HOME/studio/PROJECTS       --transfers=8  --progress && rclone copy vps:/LIBRARY_GLOBAL  $HOME/studio/LIBRARY_GLOBAL --transfers=16 --progress && rclone copy vps:/CONFIG_MASTER   $HOME/studio/CONFIG_MASTER  --transfers=4  --progress && echo "[nrr] Pull complete."'
 
 # Pull PROJECTS only — fastest, use this after a teammate uploads a file
 alias studio-pull-projects='rclone copy vps:/PROJECTS $HOME/studio/PROJECTS --transfers=8 --progress && echo "[nrr] Projects pulled."'
@@ -152,14 +146,11 @@ alias studio-open='$HOME/studio/BLENDER_APPS/blender-app/blender &'
 
 # ── End NRR Studio Aliases ────────────────────────────────────
 ENDOFALIASES
-    log "Aliases written to ~/.bashrc"
-else
-    log "Aliases already present in ~/.bashrc — skipping."
-fi
 
-# Make aliases available in the current session
-# shellcheck disable=SC1090
-source "$HOME/.bashrc" 2>/dev/null || true
+log "Aliases written to ~/.bash_aliases"
+
+# Source it in the current session
+source "$HOME/.bash_aliases" 2>/dev/null || true
 
 log "========================================"
 log "DONE. All files in $STUDIO_ROOT are owned by $(whoami)."
